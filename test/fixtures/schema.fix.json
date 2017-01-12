@@ -1,0 +1,39 @@
+{
+  "type" : "record",
+  "name" : "InputDropboxDownloadV2",
+  "namespace" : "waldo.v1.event.core",
+  "doc" : "* The result of the InputDropboxSyncJob transformation, this basicly is a\n   * flat representation of the sync job, broken out into single items\n   * vs a single array.\n   *",
+  "fields" : [ {
+    "name" : "viewer",
+    "type" : {
+      "type" : "record",
+      "name" : "Credentials",
+      "namespace" : "waldo.v1.event",
+      "fields" : [ {
+        "name" : "credentials",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "PhoneNumber",
+          "doc" : "*  PhoneNumber can be assumed to be E.164 by clients.\n   *  https://en.wikipedia.org/wiki/E.164",
+          "fields" : [ {
+            "name" : "e164",
+            "type" : "string"
+          } ]
+        }, {
+          "type" : "record",
+          "name" : "Jwt",
+          "fields" : [ {
+            "name" : "base64",
+            "type" : "string"
+          } ]
+        } ]
+      } ]
+    }
+  }, {
+    "name" : "albumId",
+    "type" : "string"
+  }, {
+    "name" : "jobId",
+    "type" : "string"
+  }]
+}
