@@ -24,6 +24,8 @@
     "test": "mocha -b test/spec && eslint lib/**"
   },
   "dependencies": {
+    "@waldo/kafka-to-sqs": "0.0.1",
+    "@waldo/sqs": "0.0.2",
     "bluebird": "^3.4.6",
     "cip": "^1.0.0",
     "jsonwebtoken": "^7.2.1",
@@ -35,6 +37,6 @@
     "grunt": "^1.0.1",
     "grunt-release": "^0.14.0",
     "mocha": "^3.2.0",
-    "sinon": "^1.17.6"
+    "sinon": "^1.17.7"
   }
 }
