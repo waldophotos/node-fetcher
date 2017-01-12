@@ -10,6 +10,10 @@ tester.log = {
     let args = Array.prototype.splice.call(arguments, 0);
     console.log('INFO:', args.join(' '));
   },
+  warn: function() {
+    let args = Array.prototype.splice.call(arguments, 0);
+    console.log('WARN:', args.join(' '));
+  },
   error: function() {
     let args = Array.prototype.splice.call(arguments, 0);
     console.log('ERROR:', args.join(' '));
