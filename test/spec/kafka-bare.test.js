@@ -54,8 +54,13 @@ describe('Kafka only', function() {
   describe.only('Nominal behaviors', function() {
     it('should consume and produce a kafka message', function(done) {
       kafkaLib.produce(this.testData, 'test-topic', schemaFix);
+
       setTimeout(() => {
         expect(this.processMockSpy.callCount).to.equal(1);
+        expect(testLib.kafkaStub.produceStub.callCount).to.equal(2);
+        const msg1 = testLib.kafkaStub.produceStub.getCall(1).args[0];
+        expect(msg1.value).to.deep.equal(this.testData);
+        expect(msg1.key).to.equal(this.testData.albumId);
         done();
       }, 500);
     });
