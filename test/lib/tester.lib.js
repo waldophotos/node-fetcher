@@ -9,6 +9,8 @@ let booted = false;
 
 var testLib = module.exports = {};
 
+testLib.ALBUM_ID = '02a2b2b5-e765-4785-8ce4-ca7233e0796b';
+
 testLib.kafkaStub = kafkaStub;
 
 testLib.init = function() {
