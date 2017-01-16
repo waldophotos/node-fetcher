@@ -4,7 +4,7 @@
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 
-const testLib = require('../lib/test.lib');
+const testLib = require('../lib/tester.lib');
 
 const dataFix = module.exports = {};
 
