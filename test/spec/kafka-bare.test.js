@@ -31,6 +31,8 @@ describe('Kafka only', function() {
       consumerGroup: 'consumer-group',
       schema: schemaFix,
       process: this.processMock,
+      hasUser: true,
+      credentialsKey: 'viewer',
       // produce related messages
       produceKafka: true,
       topicProduce: 'test-produce-topic',
@@ -51,18 +53,28 @@ describe('Kafka only', function() {
     this.testData = messagesFix.consumer();
   });
 
-  describe.only('Nominal behaviors', function() {
-    it('should consume and produce a kafka message', function(done) {
-      kafkaLib.produce(this.testData, 'test-topic', schemaFix);
+  describe('Nominal behaviors', function() {
+    beforeEach(function() {
+      return kafkaLib.produce(this.testData, 'test-topic', schemaFix);
+    });
+    beforeEach(function(done) {
+      setTimeout(done, 300);
+    });
 
-      setTimeout(() => {
-        expect(this.processMockSpy.callCount).to.equal(1);
-        expect(testLib.kafkaStub.produceStub.callCount).to.equal(2);
-        const msg1 = testLib.kafkaStub.produceStub.getCall(1).args[0];
-        expect(msg1.value).to.deep.equal(this.testData);
-        expect(msg1.key).to.equal(this.testData.albumId);
-        done();
-      }, 500);
+    it('should consume a kafka message', function() {
+      expect(this.processMockSpy.callCount).to.equal(1);
+    });
+    it('should produce a kafka message', function() {
+      expect(testLib.kafkaStub.produceStub.callCount).to.equal(2);
+      const msg1 = testLib.kafkaStub.produceStub.getCall(1).args[0];
+      expect(msg1.value).to.deep.equal(this.testData);
+    });
+    it('should produce using the albumId as kafka partioning key', function() {
+      const msg1 = testLib.kafkaStub.produceStub.getCall(1).args[0];
+      expect(msg1.key).to.equal(this.testData.albumId);
+    });
+    it('should provide uid on processing method', function() {
+      expect(this.processMockSpy.getCall(0).args[0]).to.equal(messagesFix.uid);
     });
   });
 });
