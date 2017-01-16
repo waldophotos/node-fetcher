@@ -9,6 +9,7 @@ const Promise = require('bluebird');
 
 const testLib = require('../lib/tester.lib');
 const schemaFix = require('../fixtures/schema.fix');
+const messagesFix = require('../fixtures/messages.fix');
 const kafkaLib = require('../lib/kafka.lib');
 
 const fetcher = require('../..');
@@ -17,9 +18,11 @@ describe('Kafka only', function() {
   testLib.init();
 
   beforeEach(function() {
-    this.processMock = sinon.mock(function(message) {
+    this.processMock = function(uid, message) {
       return Promise.resolve(message);
-    });
+    };
+
+    this.processMockSpy = sinon.spy(this, 'processMock');
   });
   beforeEach(function() {
     this.optsFix = {
@@ -27,7 +30,7 @@ describe('Kafka only', function() {
       topic: 'test-topic',
       consumerGroup: 'consumer-group',
       schema: schemaFix,
-      process: this.processMock.invokeMethod,
+      process: this.processMock,
       // produce related messages
       produceKafka: true,
       topicProduce: 'test-produce-topic',
@@ -44,11 +47,15 @@ describe('Kafka only', function() {
     return this.fetcher.init();
   });
 
+  beforeEach(function() {
+    this.testData = messagesFix.consumer();
+  });
+
   describe.only('Nominal behaviors', function() {
     it('should consume and produce a kafka message', function(done) {
       kafkaLib.produce(this.testData, 'test-topic', schemaFix);
       setTimeout(() => {
-        expect(this.processMock.callCount).to.equal(1);
+        expect(this.processMockSpy.callCount).to.equal(1);
         done();
       }, 500);
     });
