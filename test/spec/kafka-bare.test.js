@@ -12,7 +12,7 @@ const schemaFix = require('../fixtures/schema.fix');
 const messagesFix = require('../fixtures/messages.fix');
 const kafkaLib = require('../lib/kafka.lib');
 
-const fetcher = require('../..');
+const Fetcher = require('../..');
 
 describe('Kafka only', function() {
   testLib.init();
@@ -42,7 +42,7 @@ describe('Kafka only', function() {
   });
 
   beforeEach(function() {
-    this.fetcher = fetcher(this.optsFix);
+    this.fetcher = new Fetcher(this.optsFix);
   });
 
   beforeEach(function() {
@@ -53,7 +53,11 @@ describe('Kafka only', function() {
     this.testData = messagesFix.consumer();
   });
 
-  describe('Nominal behaviors', function() {
+  afterEach(function() {
+    return this.fetcher.dispose();
+  });
+
+  describe.only('Nominal behaviors', function() {
     beforeEach(function() {
       return kafkaLib.produce(this.testData, 'test-topic', schemaFix);
     });

@@ -9,7 +9,7 @@ const Promise = require('bluebird');
 const testLib = require('../lib/tester.lib');
 const schemaFix = require('../fixtures/schema.fix');
 
-const fetcher = require('../..');
+const Fetcher = require('../..');
 
 describe('Base API Surface', function() {
   beforeEach(function() {
@@ -28,11 +28,11 @@ describe('Base API Surface', function() {
   });
   describe('Nominal behaviors', function() {
     it('should expose expected methods', function() {
-      expect(fetcher).to.be.a('function');
+      expect(Fetcher).to.be.a('function');
     });
 
     it('should return an instance when instanciated properly', function() {
-      const fetcherInst = fetcher(this.optsFix);
+      const fetcherInst = new Fetcher(this.optsFix);
 
       expect(fetcherInst.init).to.be.a('function');
     });
@@ -40,35 +40,35 @@ describe('Base API Surface', function() {
 
   describe('Erroneous behaviors', function() {
     it('should throw when no args defined', function() {
-      expect(fetcher).to.throw(TypeError);
+      expect(Fetcher).to.throw(TypeError);
     });
     it('should throw when no options defined', function() {
-      const fn = fetcher.bind(null, {});
+      const fn = Fetcher.bind(null, {});
       expect(fn).to.throw(TypeError);
     });
     it('should throw when no "log" defined', function() {
       delete this.optsFix.log;
-      const fn = fetcher.bind(null, this.optsFix);
+      const fn = Fetcher.bind(null, this.optsFix);
       expect(fn).to.throw(TypeError);
     });
     it('should throw when no "topic" defined', function() {
       delete this.optsFix.topic;
-      const fn = fetcher.bind(null, this.optsFix);
+      const fn = Fetcher.bind(null, this.optsFix);
       expect(fn).to.throw(TypeError);
     });
     it('should throw when no "consumerGroup" defined', function() {
       delete this.optsFix.consumerGroup;
-      const fn = fetcher.bind(null, this.optsFix);
+      const fn = Fetcher.bind(null, this.optsFix);
       expect(fn).to.throw(TypeError);
     });
     it('should throw when no "schema" defined', function() {
       delete this.optsFix.schema;
-      const fn = fetcher.bind(null, this.optsFix);
+      const fn = Fetcher.bind(null, this.optsFix);
       expect(fn).to.throw(TypeError);
     });
     it('should throw when no "process" defined', function() {
       delete this.optsFix.process;
-      const fn = fetcher.bind(null, this.optsFix);
+      const fn = Fetcher.bind(null, this.optsFix);
       expect(fn).to.throw(TypeError);
     });
 
@@ -76,13 +76,13 @@ describe('Base API Surface', function() {
       it('should throw when SQS enabled and no "sqsUrl" defined', function() {
         this.optsFix.hasSqs = true;
         this.optsFix.concurrentOpsLimit = 1;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when SQS enabled and no "concurrentOpsLimit" defined', function() {
         this.optsFix.hasSqs = true;
         this.optsFix.sqsUrl = 'https';
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
     });
@@ -96,17 +96,17 @@ describe('Base API Surface', function() {
       });
       it('should throw when produce enabled and no "topicProduce" defined', function() {
         delete this.optsFix.topicProduce;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when produce enabled and no "schemaProduce" defined', function() {
         delete this.optsFix.schemaProduce;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when produce enabled and no "keyAttribute" defined', function() {
         delete this.optsFix.keyAttribute;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
     });
@@ -121,22 +121,22 @@ describe('Base API Surface', function() {
       });
       it('should throw when produce enabled and no "topicProduceError" defined', function() {
         delete this.optsFix.topicProduceError;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when produce enabled and no "schemaProduceError" defined', function() {
         delete this.optsFix.schemaProduceError;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when produce enabled and no "keyAttributeError" defined', function() {
         delete this.optsFix.keyAttributeError;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
       it('should throw when produce enabled and no "generateErrorMessage" defined', function() {
         delete this.optsFix.generateErrorMessage;
-        const fn = fetcher.bind(null, this.optsFix);
+        const fn = Fetcher.bind(null, this.optsFix);
         expect(fn).to.throw(TypeError);
       });
     });
