@@ -1,6 +1,6 @@
 {
   "name": "@waldo/fetcher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./lib/fetcher",
   "description": "Your Job or Message fetching paradise, with sugar on top",
   "homepage": "https://github.com/waldo/node-fetcher",
