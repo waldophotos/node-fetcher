@@ -123,6 +123,8 @@ fetched.init()
 
 ## Release History
 
+- **v0.0.2**, *17 Jan 2017*
+    - Add message as a second argument on the `generateErrorMessage()` callback.
 - **v0.0.1**, *17 Jan 2017*
     - Big Bang
 
