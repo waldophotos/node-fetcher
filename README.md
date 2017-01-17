@@ -1,4 +1,4 @@
-# fetcher
+# Fetcher
 
 > Your Job or Message fetching paradise, with sugar on top.
 
@@ -12,7 +12,7 @@ npm install @waldo/fetcher --save
 
 ## Documentation
 
-Fetcher is wraps around the [node-kafka](https://github.com/waldophotos/waldo-node-kafka), [kafka-to-sqs][] and [sqs](https://github.com/waldophotos/node-sqs) Waldo NPM libraries and provides a uniform and robust interface to consume and produce messages on Kafka.
+Fetcher wraps around the [node-kafka](https://github.com/waldophotos/waldo-node-kafka), [kafka-to-sqs][] and [sqs](https://github.com/waldophotos/node-sqs) Waldo NPM libraries to provide a uniform and robust interface to consume and produce messages on Kafka.
 
 The Fetcher can operate in multiple scenarios, when consuming it may consume directly from a Kafka topic or through a Kafka-to-SQS bridge if your operation is I/O or CPU intensive. On the output, you may produce a Kafka message and even choose to produce Kafka error messages in case your operation fails.
 
@@ -26,25 +26,26 @@ const Fetcher = require(@waldo/node-fetcher);
 const fetcher = new Fetcher({/* ... */});
 
 fetcher.init()
-    .then(function() {
-        console.log('You are ready!');
-    })
-    .catch(function(err) {
-        console.error('awwwOh:', err);
-    });
+  .then(function() {
+    console.log('You are ready!');
+  })
+  .catch(function(err) {
+    console.error('awwwOh:', err);
+  });
 ```
 
-### Fetched Configuration
+### Fetcher Configuration
 
 When creating a new Fetcher instance you need to provide a very elaborate configuration object. All the options bellow are keys to the Object you need to pass as argument when instantiating Fetcher.
-
 
 #### Required Config
 
 * `topic` **string** The topic to consume kafka messages on.
 * `consumerGroup` **string** The group of the consumer.
 * `schema` **Object** The kafka schema of the consumer.
-* `process` **Function** The master processing method, must return a promise.
+* `process` **Function** The master processing method, must return a promise. It will receive two arguments when invoked:
+  1. `uid` **String|null** First argument will be the userId, available only if `hasUser` is set to true, if not it will be of value `null`.
+  1. `message` **Object** The actual message to consume.
 * `log` **Object** An object containing the methods: info, warn, error.
 
 #### Credentials and Users
@@ -58,6 +59,57 @@ When creating a new Fetcher instance you need to provide a very elaborate config
 * `sqsUrl` **string=** SQS Url, required if `hasSqs` is enabled.
 * `concurrentOpsLimit` **number=** SQS concurrent operations, required if `hasSqs` is enabled.
 
+#### Produce to Kafka topic on response
+
+* `produceKafka` **boolean=** Produce a kafka message upon completion using the return value of your processing method.
+* `topicProduce` **string=** The topic to produce kafka messages on.
+* `schemaProduce` **Object=** The kafka schema of the producer.
+* `keyAttribute` **string=** Define the key attribute in the response schema to use as the kafka key for partioning.
+
+#### Produce to Kafka Error topic
+
+* `produceErrorMessage` **boolean=** Produce a kafka message in case processing fails.
+* `topicProduceError` **string=** The topic to produce kafka messages on.
+* `schemaProduceError` **Object=** The kafka schema of the producer.
+* `keyAttributeError` **string=** Define the key attribute in the response schema to use as the kafka key for partioning.
+* `generateErrorMessage` **Function=** A synchronous method that returns the correct payload to send as a kafka error message, required if `produceErrorMessage` is enabled, it will get the error as argument.
+
+#### Configuration Examples
+
+**Consume and Produce to Kafka, no SQS**
+
+```js
+const opts = {
+  log: log,
+  topic: 'test-topic',
+  consumerGroup: 'consumer-group',
+  schema: avroSchemaReference,
+  process: function(uid, message) {
+      return Promise.resolve();
+  },
+  hasUser: true,
+  credentialsKey: 'viewer',
+  // produce related messages
+  produceKafka: true,
+  topicProduce: 'test-produce-topic',
+  schemaProduce: schemaFix,
+  keyAttribute: 'albumId',
+};
+
+const fetcher = new Fetcher(opts);
+```
+
+### Initializing Fetcher
+
+Once fetched is instanciated it needs to be initialized so it performs all the required connections with the services as per the configuration. The `init()` returns a Promise:
+
+```js
+
+fetched.init()
+    .then(function() {
+        console.log('done');
+    })
+```
 
 ## Releasing
 
