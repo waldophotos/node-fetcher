@@ -56,6 +56,9 @@ describe('Kafka only', function() {
   afterEach(function() {
     return this.fetcher.dispose();
   });
+  afterEach(function() {
+    this.processMockSpy.restore();
+  });
 
   describe('Nominal behaviors', function() {
     beforeEach(function() {
