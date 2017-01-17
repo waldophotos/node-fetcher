@@ -57,7 +57,7 @@ describe('Kafka only', function() {
     return this.fetcher.dispose();
   });
 
-  describe.only('Nominal behaviors', function() {
+  describe('Nominal behaviors', function() {
     beforeEach(function() {
       return kafkaLib.produce(this.testData, 'test-topic', schemaFix);
     });
