@@ -121,7 +121,7 @@ fetched.init()
 
 ## Release History
 
-- **v0.0.1**, *TBD*
+- **v0.0.1**, *17 Jan 2017*
     - Big Bang
 
 ## License
