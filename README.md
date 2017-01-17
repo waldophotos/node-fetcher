@@ -72,7 +72,9 @@ When creating a new Fetcher instance you need to provide a very elaborate config
 * `topicProduceError` **string=** The topic to produce kafka messages on.
 * `schemaProduceError` **Object=** The kafka schema of the producer.
 * `keyAttributeError` **string=** Define the key attribute in the response schema to use as the kafka key for partioning.
-* `generateErrorMessage` **Function=** A synchronous method that returns the correct payload to send as a kafka error message, required if `produceErrorMessage` is enabled, it will get the error as argument.
+* `generateErrorMessage` **Function=** A synchronous method that returns the correct payload to send as a kafka error message, required if `produceErrorMessage` is enabled, as arguments it will receive:
+    1. `error` **Error** The error object.
+    1. `message` **Object** The message that was attempted to be produced.
 
 #### Configuration Examples
 
