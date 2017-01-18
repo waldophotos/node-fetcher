@@ -48,6 +48,10 @@ When creating a new Fetcher instance you need to provide a very elaborate config
   1. `message` **Object** The actual message to consume.
 * `log` **Object** An object containing the methods: info, warn, error.
 
+#### Optional Config
+
+* `useKeys` **boolean=** Set to true to use Kafka Partitioning Keys.
+
 #### Credentials and Users
 
 * `hasUser` **boolean=** If the consumer message has credentials with the userid encoded inside.
