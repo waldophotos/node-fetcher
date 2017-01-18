@@ -127,6 +127,8 @@ fetched.init()
 
 ## Release History
 
+- **v0.1.0**, *18 Jan 2017*
+    - Added the `useKeys` boolean option, now to use key-schemas this option needs to be set to true.
 - **v0.0.2**, *17 Jan 2017*
     - Add message as a second argument on the `generateErrorMessage()` callback.
 - **v0.0.1**, *17 Jan 2017*
