@@ -127,6 +127,8 @@ fetched.init()
 
 ## Release History
 
+- **v0.1.1**, *18 Jan 2017*
+    - Use updated kafka-to-sqs `0.1.1`.
 - **v0.1.0**, *18 Jan 2017*
     - Added the `useKeys` boolean option, now to use key-schemas this option needs to be set to true.
 - **v0.0.2**, *17 Jan 2017*
