@@ -127,6 +127,8 @@ fetched.init()
 
 ## Release History
 
+- **v0.1.2**, *20 Jan 2017*
+    - Upgrade node-kafka to `0.1.1`.
 - **v0.1.1**, *18 Jan 2017*
     - Use updated kafka-to-sqs `0.1.1`.
 - **v0.1.0**, *18 Jan 2017*
