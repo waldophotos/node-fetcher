@@ -51,6 +51,7 @@ When creating a new Fetcher instance you need to provide a very elaborate config
 #### Optional Config
 
 * `useKeys` **boolean=** Set to true to use Kafka Partitioning Keys.
+* `noKafkaSource` **boolean=** Do not use Kafka as source, requires SQS enabled (`hasSqs`).
 
 #### Credentials and Users
 
