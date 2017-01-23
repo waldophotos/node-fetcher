@@ -128,6 +128,8 @@ fetched.init()
 
 ## Release History
 
+- **v0.1.4**, *23 Jan 2017*
+    - Feature: Introduce `noKafkaSource` option.
 - **v0.1.3**, *20 Jan 2017*
     - Upgrade kafka-to-sqs to `0.1.2`.
 - **v0.1.2**, *20 Jan 2017*
